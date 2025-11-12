@@ -2,8 +2,8 @@ from html.parser import HTMLParser
 from urllib.request import urlopen
 from html.entities import name2codepoint
 """
-    Katie Sanders
-    Scrapes weather data off _
+    Katie Sanders & Param Kotak
+    Scrapes weather data
 """
 
 class WeatherScraper(HTMLParser):   
