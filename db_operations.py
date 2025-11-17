@@ -1,0 +1,135 @@
+import sqlite3
+#from typing import Dict, Iterable, List, Optional, Tuple
+from dbcm import DBCM
+
+"""
+11/16/25 
+Param Kotak & Katie Sanders
+
+Database Operations Files
+"""
+
+CREATE_TABLE_SQL = """
+CREATE TABLE IF NOT EXISTS weather (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    sample_date TEXT    NOT NULL,
+    location    TEXT    NOT NULL,
+    min_temp    REAL,
+    max_temp    REAL,
+    avg_temp    REAL,
+    CONSTRAINT uq_date_loc UNIQUE (sample_date, location)
+);
+"""
+
+CREATE_INDEX_SQL = "CREATE INDEX IF NOT EXISTS idx_weather_date ON weather(sample_date);"
+
+class DBOPerations():
+
+    """
+    Handles database operations
+    """
+
+    def __init__(self, db_path: str = "weather.sqlite"):
+
+        """
+        Initialize a new DBOperations object.
+
+        Parameters
+        ----------
+        db_path 
+            Path or filename of the SQLite database. Defaults to "weather.sqlite".
+        """
+
+        self.db_path = db_path
+
+    def initialize_db(self) -> None:
+
+        """
+        Create database tables and indexes if they do not already exist.
+
+        This method should be called once at application startup, before any
+        save or fetch operations are performed.
+
+        Returns
+        -------
+        None
+        """
+
+        with DBCM(self.db_path) as cur:
+            cur.execute(CREATE_TABLE_SQL)
+            cur.execute(CREATE_INDEX_SQL)
+
+    def save_data(self, weather_dict, location):
+
+        """
+        Insert scraped weather data into the database while preventing duplicates.
+        """
+
+        if not weather_dict:
+            return 0
+         
+        rows = []
+        for date_str, temps in weather_dict.items():
+            rows.append((
+                date_str,
+                location,
+                temps.get("Min"),
+                temps.get("Max"),
+                temps.get("Mean"),
+            ))
+
+        insert_sql = """
+            INSERT OR IGNORE INTO weather (sample_date, location, min_temp, max_temp, avg_temp)
+            VALUES (?, ?, ?, ?, ?):
+        """
+
+        with DBCM(self.db_path) as cur:
+            cur.executemany(insert_sql, rows)
+            cur.execute("SELECT changes();")
+            inserted = cur.fetchone()[0]
+
+        return inserted
+    
+    def fetch_data(self, start_date = None, end_date = None, location = None):
+
+        """
+        Retrieve weather data from the database that matches the parameters provided.
+        """
+
+        columns = ("sample_date", "min_temp", "max_temp", "avg_temp", "location"),
+        where = []
+        params = []
+
+        if start_date:
+            where.append("sample_date >= ?")
+            params.append(start_date)
+        if end_date:
+            where.append("sample_date <= ?")
+            params.append(end_date)
+        if location:
+            where.append("sample_date = ?")
+            params.append(location)
+
+        where_sql = ("WHERE " + " AND ".join(where)) if where else ""
+        sql = f"SELECT {', '.join(columns)} FROM weather {where_sql} ORDER BY sample_date ASC;"
+
+        with DBCM(self.db_path) as cur:
+            cur.execute(sql, params)
+            rows = cur.fetchall()
+
+        return tuple(tuple(row[col] for col in columns) for row in rows)
+    
+    def purge_data(self):
+
+        """
+        Delete all weather records in the database, but does not remove the table itself.
+        """
+
+        with DBCM(self.db_path) as cur:
+            cur.execute("SELECT COUNT(*) FROM weather;")
+            count_before = cur.fetchone()[0]
+            cur.execute("DELETE FROM weather;")
+        return count_before
+
+        
+    
