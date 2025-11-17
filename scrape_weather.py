@@ -5,15 +5,16 @@ from datetime import datetime, date
 """
     Katie Sanders & Param Kotak
     Scrapes weather data
+    2025-11-16
 """
 
-"""Represents a weather scraper using HTMLParser"""
 class WeatherScraper(HTMLParser):   
+    """Represents a weather scraper using HTMLParser"""
 
-    """
-        Initializes an instance of the weather scraper
-    """
     def __init__(self, base_url):
+        """
+        Initializes an instance of the weather scraper
+        """
         super().__init__()
         self.weather = {}
         self.in_tr = False
@@ -44,42 +45,41 @@ class WeatherScraper(HTMLParser):
             raise Exception("url can not be null")
         self._full_url = new_url
 
-    """
-        Handles url updating and scraping for each page
-    """
     def scrape_data(self):
-       while True:
-        self.reset()
-        self.in_tr = False
-        self.in_tbody = False
-        self.data_found = False
-        
-        print(self.format_url())
-        try:
-            response = urlopen(self.format_url())
-            html = response.read().decode("utf-8")
-            self.feed(html)
-        except Exception as e:
-            print(f"Exception - {e}")
-            break
+        """
+        Handles url updating and scraping for each page
+        """
+        while True:
+            self.reset()
+            self.in_tr = False
+            self.in_tbody = False
+            self.data_found = False
+            
+            print(self.format_url())
+            try:
+                response = urlopen(self.format_url())
+                html = response.read().decode("utf-8")
+                self.feed(html)
+            except Exception as e:
+                print(f"Exception - {e}")
+                break
 
-        if not self.data_found:
-            print(f"No data found for {self.curr_year}-{self.curr_month:02d}. Stopping.")
-            return self.weather
+            if not self.data_found:
+                print(f"No data found for {self.curr_year}-{self.curr_month:02d}. Stopping.")
+                return self.weather
 
-        if self.curr_month == 1:
-            self.curr_month = 12
-            self.curr_year -= 1
-        else:
-            self.curr_month -= 1
+            if self.curr_month == 1:
+                self.curr_month = 12
+                self.curr_year -= 1
+            else:
+                self.curr_month -= 1
 
-
-    """Formats the url with updated year and month"""
     def format_url(self):
+        """Formats the url with updated year and month"""
         return f"{self.base_url}Year={self.curr_year}&Month={self.curr_month}#"
 
-    """Handles all start tags for scraping"""
     def handle_starttag(self, tag, attrs):
+        """Handles all start tags for scraping"""
         attrs = dict(attrs)
         self.current_tag = tag
 
@@ -112,11 +112,10 @@ class WeatherScraper(HTMLParser):
                 self.in_target_a = True
             self.a_count += 1'''
 
-
-    """
-        Handles end tag and extracts the data from each row into weather dictionary
-    """
-    def handle_endtag(self, tag):
+    def handle_endtag(self, tag):    
+        """
+            Handles end tag and extracts the data from each row into weather dictionary
+        """
         if tag == "tbody":
             self.in_tbody = False
             
@@ -156,8 +155,8 @@ class WeatherScraper(HTMLParser):
             except Exception as e:
                 print("An excpetion hass occured: ", {e})'''
 
-    """Handles website data"""
     def handle_data(self, data):
+        """Handles website data"""
         if self.in_tr and self.in_tbody:
             line = data.strip()
             if self.current_tag == "td" and line:
