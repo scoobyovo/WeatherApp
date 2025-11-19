@@ -1,6 +1,7 @@
 import sqlite3
 #from typing import Dict, Iterable, List, Optional, Tuple
 from dbcm import DBCM
+from scrape_weather import WeatherScraper
 
 """
 11/16/25 
@@ -64,10 +65,10 @@ class DBOPerations():
         """
         Insert scraped weather data into the database while preventing duplicates.
         """
-
+        weather_dict = WeatherScraper.scrape_data()
         if not weather_dict:
             return 0
-         
+        
         rows = []
         for date_str, temps in weather_dict.items():
             rows.append((
