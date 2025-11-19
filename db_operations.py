@@ -1,4 +1,5 @@
 import sqlite3
+import pandas as pd
 #from typing import Dict, Iterable, List, Optional, Tuple
 from dbcm import DBCM
 from scrape_weather import WeatherScraper
@@ -13,8 +14,8 @@ Database Operations Files
 CREATE_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS weather (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    sample_date TEXT    NOT NULL,
-    location    TEXT    NOT NULL,
+    sample_date DATETIME NOT NULL,
+    location    TEXT     NOT NULL,
     min_temp    REAL,
     max_temp    REAL,
     avg_temp    REAL,
@@ -60,12 +61,12 @@ class DBOPerations():
             cur.execute(CREATE_TABLE_SQL)
             cur.execute(CREATE_INDEX_SQL)
 
-    def save_data(self, weather_dict, location):
+    def save_data(self, weather_dict):
 
         """
         Insert scraped weather data into the database while preventing duplicates.
         """
-        weather_dict = WeatherScraper.scrape_data()
+        #weather_dict = WeatherScraper.scrape_data()
         if not weather_dict:
             return 0
         
@@ -73,7 +74,7 @@ class DBOPerations():
         for date_str, temps in weather_dict.items():
             rows.append((
                 date_str,
-                location,
+                "Winnipeg, MB",
                 temps.get("Min"),
                 temps.get("Max"),
                 temps.get("Mean"),
@@ -132,10 +133,38 @@ class DBOPerations():
             cur.execute("DELETE FROM weather;")
         return count_before
 
+    # def create_csv(self, csv_path: str = "weather_export.csv"):
+    #     conn = sqlite3.connect(self.db_path)
+
+    #     query = """
+    #         SELECT id, sample_date, location, min_temp, max_temp, avg_temp
+    #         FROM weather
+    #         ORDER BY sample_date ASC
+    #     """
+
+    #     df = pd.read_sql_query(query, conn)
+    #     df.to_csv(csv_path, index=False)
+
+    #     conn.close()
+    #     return csv_path
+    
 
 if __name__ == "__main__":
+
+    scraper = WeatherScraper()
+    weather_dict = scraper.scrape_data()
+
+    print(f"Scraped {len(weather_dict)} days of data")
+
     db = DBOPerations()
     db.initialize_db()
 
-    print("Database created at:", db.db_path)
+    inserted = db.save_data(weather_dict)
+
+    print(f"Inserted {inserted} new rows into the database.")
+
+    csv_path = db.create_csv()
+    print(f"CSV exported to {csv_path}")
+
+    #print("Database created at:", db.db_path)
     
