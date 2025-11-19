@@ -14,7 +14,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 class WeatherScraper(HTMLParser):   
     """Represents a weather scraper using HTMLParser"""
 
-    def __init__(self, base_url):
+    def __init__(self):
         """
         Initializes an instance of the weather scraper
         """
@@ -30,7 +30,7 @@ class WeatherScraper(HTMLParser):
         date_ref = date.today()
         self.curr_year = date_ref.year
         self.curr_month = date_ref.month
-        self.base_url = base_url
+        self.base_url = "https://climate.weather.gc.ca/climate_data/daily_data_e.html?StationID=27174&timeframe=2&StartYear=1900&EndYear=2018&Day=1&"
         self.data_found = False
         self.last_year = 2020
             
@@ -75,7 +75,6 @@ class WeatherScraper(HTMLParser):
                     self.curr_month -= 1
             else:
                 print(f"Scraping finished for {date.today().year}-{self.curr_year:02d}. Stopping.")
-                print(self.curr_month)
                 return self.weather
 
     def format_url(self):
@@ -139,8 +138,5 @@ class WeatherScraper(HTMLParser):
             
 
 if __name__ == "__main__":
-    url = "https://climate.weather.gc.ca/climate_data/daily_data_e.html?StationID=27174&timeframe=2&StartYear=1900&EndYear=2018&Day=1&"
-    response = urlopen(url)
-
-    scraper = WeatherScraper(url)
+    scraper = WeatherScraper()
     scraper.scrape_data()
