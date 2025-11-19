@@ -2,6 +2,7 @@ import sqlite3
 from typing import Optional
 
 class DBCM:
+
     def __init__(self, db_path: str, timeout: float = 5.0, detect_types: int = 0,
                  isolation_level: Optional[str] = None):
         self.db_path = db_path

@@ -80,7 +80,7 @@ class DBOPerations():
 
         insert_sql = """
             INSERT OR IGNORE INTO weather (sample_date, location, min_temp, max_temp, avg_temp)
-            VALUES (?, ?, ?, ?, ?):
+            VALUES (?, ?, ?, ?, ?)
         """
 
         with DBCM(self.db_path) as cur:
@@ -96,7 +96,7 @@ class DBOPerations():
         Retrieve weather data from the database that matches the parameters provided.
         """
 
-        columns = ("sample_date", "min_temp", "max_temp", "avg_temp", "location"),
+        columns = ("sample_date", "min_temp", "max_temp", "avg_temp", "location")
         where = []
         params = []
 
@@ -107,7 +107,7 @@ class DBOPerations():
             where.append("sample_date <= ?")
             params.append(end_date)
         if location:
-            where.append("sample_date = ?")
+            where.append("location = ?")
             params.append(location)
 
         where_sql = ("WHERE " + " AND ".join(where)) if where else ""
@@ -131,5 +131,10 @@ class DBOPerations():
             cur.execute("DELETE FROM weather;")
         return count_before
 
-        
+
+if __name__ == "__main__":
+    db = DBOPerations()
+    db.initialize_db()
+
+    print("Database created at:", db.db_path)
     
