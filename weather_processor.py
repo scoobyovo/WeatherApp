@@ -15,7 +15,7 @@ class WeatherProcessor:
         self.user_input = input("Welcome to Weather Processor!\n---" \
         "Would you like to download all data including latest?\ny/n: ")
         if self.user_input == "y":
-            DBOPerations.initialize()
+            DBOPerations.initialize_db(self)
         self.program()
 
     def program(self):
@@ -52,3 +52,5 @@ class WeatherProcessor:
                 print(f"{self.user_input} is not one of the valid date options. Please try again.")
 
             
+if __name__ == "__main__":
+    wp = WeatherProcessor()
