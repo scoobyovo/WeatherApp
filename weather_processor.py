@@ -6,7 +6,7 @@ Katie Sanders and Param Kotak.
 Processes user input and diplays weather data based on input
 2025-11-19
 """
-
+#adding a comment to commit
 class WeatherProcessor:
     
     def __init__(self):
