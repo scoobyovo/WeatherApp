@@ -1,0 +1,52 @@
+2025-11-28 17:46:12,054 [INFO] __main__: Logging configured for weather_processor.
+2025-11-28 17:46:12,055 [INFO] __main__: WeatherProcessor started.
+2025-11-28 17:46:17,813 [INFO] __main__: User chose to initialize the database.
+2025-11-28 17:46:23,844 [INFO] __main__: Year range selected: 2020 to 2025
+2025-11-28 17:46:31,350 [INFO] __main__: Year-month selected: 2024-11
+2025-11-28 17:46:33,399 [INFO] __main__: User aborted from main loop.
+2025-11-28 17:46:33,399 [INFO] __main__: WeatherProcessor finished. start=2024-11 end=None
+2025-11-28 18:03:08,741 [INFO] __main__: Logging configured for weather_processor.
+2025-11-28 18:03:08,742 [INFO] __main__: WeatherProcessor started.
+2025-11-28 18:03:11,229 [INFO] __main__: User chose to initialize the database.
+2025-11-28 18:03:15,573 [INFO] __main__: Year range selected: 2020 to 2025
+2025-11-28 18:03:15,596 [ERROR] __main__: Error generating boxplot: Invalid comparison between dtype=int32 and str
+Traceback (most recent call last):
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 270, in enter_date
+    plotter.plot_boxplot(start_year, end_year)
+  File "h:\School work\python\WeatherApp\plot_operations.py", line 30, in plot_boxplot
+    df = df[(df["year"] >= start_year) & (df["year"] <= end_year)]
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\core\ops\common.py", line 76, in new_method
+    return method(self, other)
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\core\arraylike.py", line 60, in __ge__
+    return self._cmp_method(other, operator.ge)
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\core\series.py", line 6138, in _cmp_method
+    res_values = ops.comparison_op(lvalues, rvalues, op)
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\core\ops\array_ops.py", line 341, in comparison_op
+    return invalid_comparison(lvalues, rvalues, op)
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\core\ops\invalid.py", line 40, in invalid_comparison
+    raise TypeError(f"Invalid comparison between dtype={left.dtype} and {typ}")
+TypeError: Invalid comparison between dtype=int32 and str
+2025-11-28 18:07:57,477 [INFO] __main__: User aborted from main loop.
+2025-11-28 18:07:57,478 [INFO] __main__: WeatherProcessor finished. start=2020 end=2025
+2025-11-28 18:07:58,567 [INFO] __main__: Logging configured for weather_processor.
+2025-11-28 18:07:58,567 [INFO] __main__: WeatherProcessor started.
+2025-11-28 18:08:02,700 [INFO] __main__: User chose to initialize the database.
+2025-11-28 18:08:07,176 [INFO] __main__: Year range selected: 2020 to 2025
+2025-11-28 18:08:20,081 [INFO] __main__: Year-month selected: 2024-11
+2025-11-28 18:09:49,038 [WARNING] __main__: Invalid main-loop option entered: & c:/users/param/appdata/local/programs/python/python39/python.exe "h:/school work/python/weatherapp/weather_processor.py"
+2025-11-28 18:09:59,048 [INFO] __main__: User chose to quit.
+2025-11-28 18:09:59,048 [INFO] __main__: WeatherProcessor finished. start=2024-11 end=None
+2025-11-28 18:10:03,242 [INFO] __main__: Logging configured for weather_processor.
+2025-11-28 18:10:03,242 [INFO] __main__: WeatherProcessor started.
+2025-11-28 18:10:04,754 [INFO] __main__: User chose to initialize the database.
+2025-11-28 18:10:08,578 [INFO] __main__: Year-month selected: 2024-11
+2025-11-28 18:10:16,430 [WARNING] __main__: Invalid main-loop option entered: 2020-2025
+2025-11-28 18:10:24,936 [WARNING] __main__: Invalid main-loop option entered: 2020-2025
+2025-11-28 18:10:46,155 [INFO] __main__: User chose to quit.
+2025-11-28 18:10:46,155 [INFO] __main__: WeatherProcessor finished. start=2024-11 end=None
+2025-11-28 18:10:48,945 [INFO] __main__: Logging configured for weather_processor.
+2025-11-28 18:10:48,946 [INFO] __main__: WeatherProcessor started.
+2025-11-28 18:10:50,591 [INFO] __main__: User chose to initialize the database.
+2025-11-28 18:10:54,475 [INFO] __main__: Year range selected: 2020 to 2025
+2025-11-28 18:13:57,547 [INFO] __main__: User chose to quit.
+2025-11-28 18:13:57,548 [INFO] __main__: WeatherProcessor finished. start=2020 end=2025

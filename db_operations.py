@@ -1,15 +1,22 @@
+"""
+db_operations.py
+
+Provides the DBOperations class, which handles all SQLite operations for
+the weather database (initialize, save, fetch, purge, and export to CSV).
+11/16/25
+Param Kotak & Katie Sanders
+"""
+
+import logging
 import sqlite3
 import pandas as pd
 #from typing import Dict, Iterable, List, Optional, Tuple
 from dbcm import DBCM
 from scrape_weather import WeatherScraper
 
-"""
-11/16/25 
-Param Kotak & Katie Sanders
 
-Database Operations Files
-"""
+LOGGER = logging.getLogger(__name__)
+
 
 CREATE_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS weather (
@@ -23,29 +30,31 @@ CREATE TABLE IF NOT EXISTS weather (
 );
 """
 
+
 CREATE_INDEX_SQL = "CREATE INDEX IF NOT EXISTS idx_weather_date ON weather(sample_date);"
 
-class DBOPerations():
+
+class DBOperations():
 
     """
-    Handles database operations
+    Handles database operations such as initialization, saving, fetching, and purging weather data.
     """
+
 
     def __init__(self, db_path: str = "weather.sqlite"):
-
         """
         Initialize a new DBOperations object.
 
         Parameters
         ----------
-        db_path 
+        db_path : str
             Path or filename of the SQLite database. Defaults to "weather.sqlite".
         """
 
         self.db_path = db_path
 
-    def initialize_db(self) -> None:
 
+    def initialize_db(self) -> None:
         """
         Create database tables and indexes if they do not already exist.
 
@@ -57,45 +66,81 @@ class DBOPerations():
         None
         """
 
-        with DBCM(self.db_path) as cur:
-            cur.execute(CREATE_TABLE_SQL)
-            cur.execute(CREATE_INDEX_SQL)
+        try:
+            with DBCM(self.db_path) as cur:
+                cur.execute(CREATE_TABLE_SQL)
+                cur.execute(CREATE_INDEX_SQL)
+            LOGGER.info("Database initialized at %s", self.db_path)
+        except Exception as exc:
+            LOGGER.exception("Error initializing database: %s", exc)
+            raise
+
 
     def save_data(self, weather_dict):
-
         """
         Insert scraped weather data into the database while preventing duplicates.
+        
+        Parameter
+        ---------
+        weather_dict
+            Dictionary of dictionaries containing weather data in the format
+            { 'YYYY-MM-DD': {'Min': float, 'Max': float, 'Mean': float}, }
+
+        Returns
+        -------
+        int
+            Number of newly inserted rows.
         """
         #weather_dict = WeatherScraper.scrape_data()
         if not weather_dict:
+            LOGGER.warning("save_data called with empty weather_dict.")
             return 0
         
+
         rows = []
         for date_str, temps in weather_dict.items():
-            rows.append((
+            rows.append(
+            (
                 date_str,
                 "Winnipeg, MB",
                 temps.get("Min"),
                 temps.get("Max"),
                 temps.get("Mean"),
-            ))
+            )
+        )
 
         insert_sql = """
             INSERT OR IGNORE INTO weather (sample_date, location, min_temp, max_temp, avg_temp)
             VALUES (?, ?, ?, ?, ?)
         """
-
-        with DBCM(self.db_path) as cur:
-            cur.executemany(insert_sql, rows)
-            cur.execute("SELECT changes();")
-            inserted = cur.fetchone()[0]
-
-        return inserted
+        try:
+            with DBCM(self.db_path) as cur:
+                cur.executemany(insert_sql, rows)
+                cur.execute("SELECT changes();")
+                inserted = cur.fetchone()[0]
+            LOGGER.info("Inserted %d new rows into the database.", inserted)
+            return inserted
+        except Exception as exc:
+            LOGGER.exception("Error saving data to database: %s", exc)
+            raise
     
     def fetch_data(self, start_date = None, end_date = None, location = None):
-
         """
         Retrieve weather data from the database that matches the parameters provided.
+
+        Parameters
+        ----------
+        start_date : str
+            Earliest date in YYYY-MM-DD format.
+        end_date : str
+            Latest date in YYYY-MM-DD format.
+        location : str
+            location filter.
+
+        Returns
+        -------
+        tuple[tuple]
+            Rows of data as tuples.
         """
 
         columns = ("sample_date", "min_temp", "max_temp", "avg_temp", "location")
@@ -115,23 +160,36 @@ class DBOPerations():
         where_sql = ("WHERE " + " AND ".join(where)) if where else ""
         sql = f"SELECT {', '.join(columns)} FROM weather {where_sql} ORDER BY sample_date ASC;"
 
-        with DBCM(self.db_path) as cur:
-            cur.execute(sql, params)
-            rows = cur.fetchall()
-
-        return tuple(tuple(row[col] for col in columns) for row in rows)
+        try:
+            with DBCM(self.db_path) as cur:
+                cur.execute(sql, params)
+                rows = cur.fetchall()
+            LOGGER.info("Fetched %d rows from database.", len(rows))
+            return tuple(tuple(row[col] for col in columns) for row in rows)
+        except Exception as exc:
+            LOGGER.exception("Error fetching data from database: %s", exc)
+            raise
     
     def purge_data(self):
-
         """
         Delete all weather records in the database, but does not remove the table itself.
+
+        Returns
+        -------
+        int
+            Number of rows deleted.
         """
 
-        with DBCM(self.db_path) as cur:
-            cur.execute("SELECT COUNT(*) FROM weather;")
-            count_before = cur.fetchone()[0]
-            cur.execute("DELETE FROM weather;")
-        return count_before
+        try:
+            with DBCM(self.db_path) as cur:
+                cur.execute("SELECT COUNT(*) FROM weather;")
+                count_before = cur.fetchone()[0]
+                cur.execute("DELETE FROM weather;")
+            LOGGER.info("Purged %d rows from database.", count_before)
+            return count_before
+        except Exception as exc: 
+            LOGGER.exception("Error purging data from database: %s", exc)
+            raise
 
     # def create_csv(self, csv_path: str = "weather_export.csv"):
     #     conn = sqlite3.connect(self.db_path)
@@ -150,21 +208,27 @@ class DBOPerations():
     
 
 if __name__ == "__main__":
-
+    logging.basicConfig(
+        filename="weatherapp.log",
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(name)s %(message)s",
+    )
+    LOGGER.info("Running db_operations test.")
+    
     scraper = WeatherScraper()
     weather_dict = scraper.scrape_data()
 
     print(f"Scraped {len(weather_dict)} days of data")
 
-    db = DBOPerations()
+    db = DBOperations()
     db.initialize_db()
 
     inserted = db.save_data(weather_dict)
 
     print(f"Inserted {inserted} new rows into the database.")
 
-    csv_path = db.create_csv()
-    print(f"CSV exported to {csv_path}")
+    # csv_path = db.create_csv()
+    # print(f"CSV exported to {csv_path}")
 
     #print("Database created at:", db.db_path)
     
