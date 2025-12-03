@@ -50,3 +50,85 @@ TypeError: Invalid comparison between dtype=int32 and str
 2025-11-28 18:10:54,475 [INFO] __main__: Year range selected: 2020 to 2025
 2025-11-28 18:13:57,547 [INFO] __main__: User chose to quit.
 2025-11-28 18:13:57,548 [INFO] __main__: WeatherProcessor finished. start=2020 end=2025
+2025-12-02 18:28:55,763 [INFO] __main__: Logging configured for weather processor.
+2025-12-02 18:28:55,902 [INFO] __main__: Weather Processor initialized.
+2025-12-02 18:28:55,902 [INFO] __main__: Program loop started.
+2025-12-02 18:33:31,585 [INFO] __main__: User aborted from the program.
+2025-12-02 18:33:32,710 [INFO] __main__: Logging configured for weather processor.
+2025-12-02 18:33:32,710 [INFO] __main__: Weather Processor initialized.
+2025-12-02 18:33:32,710 [INFO] __main__: Program loop started.
+2025-12-02 18:33:39,165 [INFO] __main__: Line-plot generation requested.
+2025-12-02 18:33:44,119 [ERROR] __main__: Error running menu option 2: 'WeatherProcessor' object has no attribute 'user_input'
+Traceback (most recent call last):
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 203, in program
+    action()
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 163, in <lambda>
+    "2": lambda: self.generate_line(),
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 244, in generate_line
+    if re.match(year_month_pattern, self.user_input):
+AttributeError: 'WeatherProcessor' object has no attribute 'user_input'
+2025-12-02 18:45:54,750 [INFO] __main__: User aborted from the program.
+2025-12-02 18:45:57,848 [INFO] __main__: Logging configured for weather processor.
+2025-12-02 18:45:57,848 [INFO] __main__: Weather Processor initialized.
+2025-12-02 18:45:57,848 [INFO] __main__: Program loop started.
+2025-12-02 18:46:04,129 [INFO] __main__: Line-plot generation requested.
+2025-12-02 18:46:07,661 [ERROR] __main__: Error running menu option 2: 'WeatherProcessor' object has no attribute 'user_input'
+Traceback (most recent call last):
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 204, in program
+    action()
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 163, in <lambda>
+    "2": lambda: self.generate_line(),
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 245, in generate_line
+    if re.match(year_month_pattern, self.user_input):
+AttributeError: 'WeatherProcessor' object has no attribute 'user_input'
+2025-12-02 18:49:22,086 [INFO] __main__: User aborted from the program.
+2025-12-02 18:49:23,174 [INFO] __main__: Logging configured for weather processor.
+2025-12-02 18:49:23,174 [INFO] __main__: Weather Processor initialized.
+2025-12-02 18:49:23,174 [INFO] __main__: Program loop started.
+2025-12-02 18:49:26,991 [INFO] __main__: Line-plot generation requested.
+2025-12-02 18:49:31,861 [ERROR] __main__: Error running menu option 2: 'WeatherProcessor' object has no attribute 'user_input'
+Traceback (most recent call last):
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 204, in program
+    action()
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 163, in <lambda>
+    "2": lambda: self.generate_line(),
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 246, in generate_line
+    if re.match(year_month_pattern, self.user_input):
+AttributeError: 'WeatherProcessor' object has no attribute 'user_input'
+2025-12-02 18:50:10,598 [WARNING] __main__: Invalid menu choice: & C:/Users/param/AppData/Local/Programs/Python/Python39/python.exe "h:/School work/python/WeatherApp/weather_processor.py"
+2025-12-02 18:50:14,185 [INFO] __main__: Line-plot generation requested.
+2025-12-02 18:50:17,869 [ERROR] __main__: Error running menu option 2: 'WeatherProcessor' object has no attribute 'user_input'
+Traceback (most recent call last):
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 204, in program
+    except Exception as exc:  # pylint: disable=broad-except
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 163, in <lambda>
+    "2": lambda: self.generate_line(),
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 246, in generate_line
+    LOGGER.warning("Invalid year range format: %s", user_input)
+AttributeError: 'WeatherProcessor' object has no attribute 'user_input'
+2025-12-02 18:50:21,107 [WARNING] __main__: Invalid menu choice: & C:/Users/param/AppData/Local/Programs/Python/Python39/python.exe "h:/School work/python/WeatherApp/weather_processor.py"
+2025-12-02 18:50:27,789 [INFO] __main__: Logging configured for weather processor.
+2025-12-02 18:50:27,789 [INFO] __main__: Weather Processor initialized.
+2025-12-02 18:50:27,789 [INFO] __main__: Program loop started.
+2025-12-02 18:50:29,450 [INFO] __main__: Line-plot generation requested.
+2025-12-02 18:50:32,479 [WARNING] __main__: Invalid year-month format: 2020-2025
+2025-12-02 18:51:01,405 [INFO] __main__: Line-plot generation requested.
+2025-12-02 18:51:10,076 [INFO] __main__: Line plot generated for 2024-11.
+2025-12-02 18:51:21,862 [INFO] __main__: User aborted from the program.
+2025-12-02 18:51:32,356 [INFO] __main__: Logging configured for weather processor.
+2025-12-02 18:51:32,356 [INFO] __main__: Weather Processor initialized.
+2025-12-02 18:51:32,356 [INFO] __main__: Program loop started.
+2025-12-02 18:51:37,799 [INFO] __main__: Logging configured for weather processor.
+2025-12-02 18:51:37,799 [INFO] __main__: Weather Processor initialized.
+2025-12-02 18:51:37,799 [INFO] __main__: Program loop started.
+2025-12-02 18:51:39,246 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-02 18:51:59,452 [INFO] __main__: Box-plot generation requested.
+2025-12-02 18:52:05,989 [INFO] __main__: Box plot generated for 2020–2025.
+2025-12-02 18:52:07,564 [INFO] __main__: Line-plot generation requested.
+2025-12-02 18:52:11,303 [INFO] __main__: Line plot generated for 2026-11.
+2025-12-02 18:53:15,788 [INFO] __main__: User aborted from the program.
+2025-12-02 18:53:20,590 [INFO] __main__: Logging configured for weather processor.
+2025-12-02 18:53:20,590 [INFO] __main__: Weather Processor initialized.
+2025-12-02 18:53:20,590 [INFO] __main__: Program loop started.
+2025-12-02 18:53:25,708 [INFO] __main__: Line-plot generation requested.
+2025-12-02 18:53:33,244 [INFO] __main__: Line plot generated for 2024-11.
