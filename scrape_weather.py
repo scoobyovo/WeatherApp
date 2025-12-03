@@ -148,6 +148,3 @@ class WeatherScraper(HTMLParser):
 if __name__ == "__main__":
     scraper = WeatherScraper()
     scraper.scrape_data()
-
-
-    ####

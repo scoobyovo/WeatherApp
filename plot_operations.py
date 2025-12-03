@@ -1,19 +1,38 @@
+"""
+plot_operations.py
+------------------
+
+Contains the PlotOperations class, which loads data from the SQLite database and generates box plotes and line plots using matplotlib.
+"""
+
+
+import logging
 import matplotlib.pyplot as plt
 import sqlite3
 import pandas as pd
+
+
+LOGGER = logging.getLogger(__name__)
+
 
 class PlotOperations():
     def __init__(self, db_path: str = "weather.sqlite"):
         self.db_path = db_path
 
     def _load_data(self):
-        conn = sqlite3.connect(self.db_path)
-        df = pd.read_sql_query("""
-            SELECT sample_date, avg_temp
-            FROM weather
-            WHERE avg_temp IS NOT NULL                   
-        """, conn)
-        conn.close()
+
+        try:
+            conn = sqlite3.connect(self.db_path)
+            df = pd.read_sql_query("""
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            """, conn)
+            conn.close()
+        except Exception as exc:
+            LOGGER.exception("Failed to load data from database: %s", exc)
+            raise
+
 
         df["avg_temp"] = pd.to_numeric(df["avg_temp"], errors="coerce")
 
