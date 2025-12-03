@@ -1,9 +1,15 @@
 from html.parser import HTMLParser
 from urllib.request import urlopen
-from html.entities import name2codepoint
 from datetime import datetime, date
 import ssl
+import logging
+
+
 ssl._create_default_https_context = ssl._create_unverified_context
+
+
+LOGGER = logging.getLogger(__name__)
+
 
 """
     Katie Sanders & Param Kotak
@@ -59,8 +65,9 @@ class WeatherScraper(HTMLParser):
                 response = urlopen(self.format_url())
                 html = response.read().decode("utf-8")
                 self.feed(html)
-            except Exception as e:
-                print(f"Exception - {e}")
+            except Exception as exc:
+                LOGGER.exception("Exception while fetching URL %s: %s", self.format_url(), exc)
+                print(f"Exception - {exc}")
                 break
 
             if not self.data_found:
@@ -123,8 +130,9 @@ class WeatherScraper(HTMLParser):
                     }
                     print(f"{self.current_date}: Max = {max_temp}, Min = {min_temp}, Mean = {mean_temp}")
                     self.data_found = True
-                except Exception as e:
-                    print(f"Exception occurred: {e}")
+                except Exception as exc:
+                    LOGGER.exception("Exception while processing row for %s: %s", self.current_date, exc)
+                    print(f"Exception occurred: {exc}")
                 self.in_tr = False
 
     def handle_data(self, data):
@@ -140,3 +148,6 @@ class WeatherScraper(HTMLParser):
 if __name__ == "__main__":
     scraper = WeatherScraper()
     scraper.scrape_data()
+
+
+    ####
