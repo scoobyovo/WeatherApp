@@ -61,7 +61,6 @@ class WeatherProcessor:
         LOGGER.info("Weather Processor initialized.")
         self.program()
 
-
     def program(self):
         """
         Run the main command-line menu loop.
@@ -197,8 +196,6 @@ class WeatherProcessor:
         else:
             print(f"{user_input} was not formatted correctly. Please try again.")
             LOGGER.warning("Invalid year-month format: %s", user_input)
-
-
 
 
 if __name__ == "__main__":
