@@ -5,6 +5,14 @@ scrape_weather
 Katie Sanders & Param Kotak
 Scrapes weather data from Environment Canada using HTMLParser.
 2025-11-16
+
+This module defines the WeatherScraper class, which scrapes historical
+weather data from Environment Canada's climate website using Python's
+built-in HTMLParser.
+
+The scraper navigates month-by-month backwards in time, extracts
+maximum, minimum, and mean temperatures for each day, and stores the
+results in a dictionary keyed by date.
 """
 
 
@@ -20,11 +28,46 @@ LOGGER = logging.getLogger(__name__)
 
 
 class WeatherScraper(HTMLParser):   
-    """Represents a weather scraper using HTMLParser"""
+    """
+    Scrape daily weather data from Environment Canada's climate website.
+
+    This class uses HTMLParser to navigate the site's table structure
+    and extract daily temperature values, which are stored in a nested
+    dictionary.
+
+    Attributes
+    ----------
+    weather : dict
+        Stores all scraped weather data.
+    in_tr : bool
+        Indicates whether the parser is currently inside a <tr> row.
+    in_tbody : bool
+        Indicates whether the parser is inside the main weather-data table body.
+    current_date : str or None
+        Holds the date for the current row being processed.
+    current_row_data : list
+        Accumulates column values (Max, Min, Mean, etc.) for the current row.
+    current_tag : str or None
+        Tracks the current HTML tag being processed.
+    curr_year : int
+        The current year being scraped (moves backwards in time).
+    curr_month : int
+        The current month being scraped.
+    base_url : str
+        Partial URL used to construct full request URLs.
+    data_found : bool
+        Indicates whether valid weather data was found for the current month.
+    last_year : int
+        The earliest year to scrape before stopping.
+    """
+
 
     def __init__(self):
         """
-        Initializes an instance of the weather scraper
+        Initialize a new WeatherScraper instance.
+
+        Sets initial parser state, defines date traversal logic, and
+        prepares the scraper to extract weather data month-by-month.
         """
         super().__init__()
         self.weather = {}
@@ -42,15 +85,28 @@ class WeatherScraper(HTMLParser):
         self.data_found = False
         self.last_year = 2020
             
+
     @property
     def full_url(self):
-        """Return the full URL currently being scraped."""
+        """Return the current full URL being used for scraping."""
         return self._full_url
     
 
     @full_url.setter
     def full_url(self, new_url):
-        """Set the full URL to a new non-empty value."""
+        """
+        Set the full URL for scraping.
+
+        Parameters
+        ----------
+        new_url : str
+            A non-empty URL string.
+
+        Raises
+        ------
+        Exception
+            If the URL is empty.
+        """
         if str(new_url) == "":
             raise Exception("url can not be null")
         self._full_url = new_url
@@ -58,12 +114,19 @@ class WeatherScraper(HTMLParser):
 
     def scrape_data(self):
         """
-        Handle URL updating and scraping for each page.
+        Scrape all available data by iterating month-by-month backwards.
+
+        The method repeatedly:
+        - Builds a monthly URL
+        - Downloads the HTML
+        - Parses table rows
+        - Extracts Max/Min/Mean temperatures
+        - Moves back one month until no more data exists
 
         Returns
         -------
         dict
-            A dictionary of dictionaries containing scraped weather data.
+            A dictionary containing all scraped weather records.
         """
         while True:
             self.reset()
@@ -97,12 +160,28 @@ class WeatherScraper(HTMLParser):
 
 
     def format_url(self):
-        """Formats the url with updated year and month"""
+        """
+        Construct the full scraping URL for the current year and month.
+
+        Returns
+        -------
+        str
+            A complete URL ready for use.
+        """
         return f"{self.base_url}Year={self.curr_year}&Month={self.curr_month}#"
 
 
     def handle_starttag(self, tag, attrs):
-        """Handles all start tags for scraping"""
+        """
+        Process HTML start tags and detect relevant data sections.
+
+        Parameters
+        ----------
+        tag : str
+            The name of the HTML tag encountered.
+        attrs : list
+            The list of (attribute, value) pairs for the tag.
+        """
         attrs = dict(attrs)
         self.current_tag = tag
 
@@ -124,7 +203,19 @@ class WeatherScraper(HTMLParser):
 
 
     def handle_endtag(self, tag):    
-        """Handles end tag and extracts the data from each row into weather dictionary"""
+        """
+        Handle closing tags and finalize row processing.
+
+        Parameters
+        ----------
+        tag : str
+            The HTML end tag encountered.
+
+        Notes
+        -----
+        When a </tr> tag closes, if at least three temperature values were
+        captured, the row is stored in the weather dictionary.
+        """
         if tag == "tbody":
             self.in_tbody = False
 
@@ -151,7 +242,19 @@ class WeatherScraper(HTMLParser):
 
 
     def handle_data(self, data):
-        """Handle text data inside the HTML."""
+        """
+        Process text content inside relevant HTML tags.
+
+        Parameters
+        ----------
+        data : str
+            The inner text of the current HTML element.
+
+        Notes
+        -----
+        Temperature readings appear within <td> or <span> tags.
+        Missing data is represented as 'M'.
+        """
         if self.in_tr and self.in_tbody:
             line = data.strip()
             if self.current_tag == "td" and line:
