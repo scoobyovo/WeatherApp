@@ -1,3 +1,13 @@
+"""
+scrape_weather
+==============
+
+Katie Sanders & Param Kotak
+Scrapes weather data from Environment Canada using HTMLParser.
+2025-11-16
+"""
+
+
 from html.parser import HTMLParser
 from urllib.request import urlopen
 from datetime import datetime, date
@@ -6,16 +16,8 @@ import logging
 
 
 ssl._create_default_https_context = ssl._create_unverified_context
-
-
 LOGGER = logging.getLogger(__name__)
 
-
-"""
-    Katie Sanders & Param Kotak
-    Scrapes weather data
-    2025-11-16
-"""
 
 class WeatherScraper(HTMLParser):   
     """Represents a weather scraper using HTMLParser"""
@@ -42,17 +44,26 @@ class WeatherScraper(HTMLParser):
             
     @property
     def full_url(self):
+        """Return the full URL currently being scraped."""
         return self._full_url
     
+
     @full_url.setter
     def full_url(self, new_url):
+        """Set the full URL to a new non-empty value."""
         if str(new_url) == "":
             raise Exception("url can not be null")
         self._full_url = new_url
 
+
     def scrape_data(self):
         """
-        Handles url updating and scraping for each page
+        Handle URL updating and scraping for each page.
+
+        Returns
+        -------
+        dict
+            A dictionary of dictionaries containing scraped weather data.
         """
         while True:
             self.reset()
@@ -84,9 +95,11 @@ class WeatherScraper(HTMLParser):
                 print(f"Scraping finished for {date.today().year}-{self.curr_year:02d}. Stopping.")
                 return self.weather
 
+
     def format_url(self):
         """Formats the url with updated year and month"""
         return f"{self.base_url}Year={self.curr_year}&Month={self.curr_month}#"
+
 
     def handle_starttag(self, tag, attrs):
         """Handles all start tags for scraping"""
@@ -109,10 +122,9 @@ class WeatherScraper(HTMLParser):
             except Exception:
                 self.current_date = None
 
+
     def handle_endtag(self, tag):    
-        """
-            Handles end tag and extracts the data from each row into weather dictionary
-        """
+        """Handles end tag and extracts the data from each row into weather dictionary"""
         if tag == "tbody":
             self.in_tbody = False
 
@@ -128,22 +140,27 @@ class WeatherScraper(HTMLParser):
                         "Min": min_temp,
                         "Mean": mean_temp
                     }
-                    print(f"{self.current_date}: Max = {max_temp}, Min = {min_temp}, Mean = {mean_temp}")
+                    print(f"{self.current_date}: Max = {max_temp}," +
+                          "Min = {min_temp}, Mean = {mean_temp}")
                     self.data_found = True
                 except Exception as exc:
-                    LOGGER.exception("Exception while processing row for %s: %s", self.current_date, exc)
+                    LOGGER.exception("Exception while processing row for %s: %s", 
+                                     self.current_date, exc)
                     print(f"Exception occurred: {exc}")
                 self.in_tr = False
 
+
     def handle_data(self, data):
-        """Handles website data"""
+        """Handle text data inside the HTML."""
         if self.in_tr and self.in_tbody:
             line = data.strip()
             if self.current_tag == "td" and line:
                 self.current_row_data.append(line)
             elif line and self.current_tag == "span":
                 self.current_row_data.append("M")
-            
+
+
+
 
 if __name__ == "__main__":
     scraper = WeatherScraper()

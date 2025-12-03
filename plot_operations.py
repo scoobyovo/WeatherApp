@@ -16,11 +16,29 @@ LOGGER = logging.getLogger(__name__)
 
 
 class PlotOperations():
+    """Provide plotting operations for weather data stored in SQLite."""
+
     def __init__(self, db_path: str = "weather.sqlite"):
+        """
+        Initialize a PlotOperations instance.
+
+        Parameters
+        ----------
+        db_path : str, optional
+            Path to the SQLite database file. Defaults to 'weather.sqlite'.
+        """
         self.db_path = db_path
 
-    def _load_data(self):
 
+    def _load_data(self):
+        """
+        Load weather data from the SQLite database into a pandas DataFrame.
+
+        Returns
+        -------
+        pandas.DataFrame
+            A DataFrame with columns: sample_date, avg_temp, year, month, day.
+        """
         try:
             conn = sqlite3.connect(self.db_path)
             df = pd.read_sql_query("""
@@ -44,6 +62,20 @@ class PlotOperations():
         return df
     
     def plot_boxplot(self, start_year, end_year):
+        """
+        Plot a boxplot of average temperatures for each month in a year range.
+
+        Parameters
+        ----------
+        start_year : int
+            The first year to include (e.g., 2020).
+        end_year : int
+            The last year to include (e.g., 2025).
+
+        Returns
+        -------
+        None
+        """
         df = self._load_data()
 
         df = df[(df["year"] >= start_year) & (df["year"] <= end_year)]
@@ -80,6 +112,20 @@ class PlotOperations():
         plt.show()
 
     def plot_month_line(self, year: int, month: int):
+        """
+        Plot a line graph of average temperature for a specific year and month.
+
+        Parameters
+        ----------
+        year : int
+            The year to plot (e.g., 2024).
+        month : int
+            The month to plot (1–12).
+
+        Returns
+        -------
+        None
+        """
         df = self._load_data()
 
         subset = df[(df["year"] == year) & (df["month"] == month)]

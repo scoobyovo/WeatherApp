@@ -1,10 +1,3 @@
-from scrape_weather import WeatherScraper
-from db_operations import DBOperations
-from plot_operations import PlotOperations
-
-import logging
-import re
-
 """
 Katie Sanders and Param Kotak.
 Processes user input and displays weather data based on input.
@@ -14,6 +7,14 @@ This module defines the WeatherProcessor class, which serves as the main
 controller for the WeatherApp. It provides a command-line interface for the 
 user to download weather data, generate plots, and exit the program.
 """
+
+
+from scrape_weather import WeatherScraper
+from db_operations import DBOperations
+from plot_operations import PlotOperations
+import logging
+import re
+
 
 LOGGER = logging.getLogger(__name__)
 
@@ -47,6 +48,18 @@ class WeatherProcessor:
     """
 
     def __init__(self):
+        """
+        Initialize the WeatherProcessor application.
+
+        This constructor sets up:
+        - the PlotOperations instance used for generating plots,
+        - default values for date fields,
+        - the DBOperations instance for database interactions,
+        - the command-menu mapping for user actions.
+
+        After initializing internal state, it immediately launches the
+        main program loop by calling self.program().
+        """
         self.plot_op = PlotOperations()
         self.starting_date = None
         self.end_date = None
@@ -60,7 +73,6 @@ class WeatherProcessor:
 
         LOGGER.info("Weather Processor initialized.")
         self.program()
-
 
     def program(self):
         """
@@ -197,8 +209,6 @@ class WeatherProcessor:
         else:
             print(f"{user_input} was not formatted correctly. Please try again.")
             LOGGER.warning("Invalid year-month format: %s", user_input)
-
-
 
 
 if __name__ == "__main__":

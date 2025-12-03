@@ -15,15 +15,45 @@ LOGGER = logging.getLogger(__name__)
 
 
 class DBCM:
+    """
+    Context manager for SQLite database connections.
+
+    Opens a connection on entry and returns a cursor. On exit, commits the
+    transaction if no exception occurred, otherwise rolls back. The connection
+    is always closed.
+    """
     def __init__(self, db_path: str, timeout: float = 5.0, detect_types: int = 0,
                  isolation_level: Optional[str] = None):
+        """
+        Initialize a DBCM instance.
+
+        Parameters
+        ----------
+        db_path : str
+            Path to the SQLite database file.
+        timeout : float, optional
+            Connection timeout in seconds. Defaults to 5.0.
+        detect_types : int, optional
+            sqlite3 detect_types flag. Defaults to 0.
+        isolation_level : str, optional
+            sqlite3 isolation level. Defaults to None.
+        """
         self.db_path = db_path
         self.timeout = timeout
         self.detect_types = detect_types
         self.isolation_level = isolation_level
         self._conn: Optional[sqlite3.Connection] = None
 
+
     def __enter__(self) -> sqlite3.Cursor:
+        """
+        Open a SQLite connection and return a cursor.
+
+        Returns
+        -------
+        sqlite3.Cursor
+            A cursor object with row_factory set to sqlite3.Row.
+        """
         try:
             self._conn = sqlite3.connect(
                 self.db_path,
@@ -38,7 +68,23 @@ class DBCM:
             LOGGER.exception("Failed to open database connection: %s", exc)
             raise
     
+
     def __exit__(self, exc_type, exc, exc_tb):
+        """
+        Commit the transaction on success, roll back on error, and close
+        the database connection.
+
+        Parameters
+        ----------
+        exc_type, exc, exc_tb
+            Exception information, if an exception occurred inside the
+            context block.
+
+        Returns
+        -------
+        bool
+            Always False so that exceptions are not suppressed.
+        """
         try:
             if self._conn is None:
                 return False

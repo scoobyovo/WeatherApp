@@ -7,16 +7,14 @@ the weather database (initialize, save, fetch, purge, and export to CSV).
 Param Kotak & Katie Sanders
 """
 
+
 import logging
 import sqlite3
 import pandas as pd
-#from typing import Dict, Iterable, List, Optional, Tuple
 from dbcm import DBCM
 from scrape_weather import WeatherScraper
 
-
 LOGGER = logging.getLogger(__name__)
-
 
 CREATE_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS weather (
@@ -30,16 +28,13 @@ CREATE TABLE IF NOT EXISTS weather (
 );
 """
 
-
 CREATE_INDEX_SQL = "CREATE INDEX IF NOT EXISTS idx_weather_date ON weather(sample_date);"
 
 
 class DBOperations():
-
     """
     Handles database operations such as initialization, saving, fetching, and purging weather data.
     """
-
 
     def __init__(self, db_path: str = "weather.sqlite"):
         """
@@ -65,7 +60,6 @@ class DBOperations():
         -------
         None
         """
-
         try:
             with DBCM(self.db_path) as cur:
                 cur.execute(CREATE_TABLE_SQL)
@@ -91,7 +85,6 @@ class DBOperations():
         int
             Number of newly inserted rows.
         """
-        #weather_dict = WeatherScraper.scrape_data()
         if not weather_dict:
             LOGGER.warning("save_data called with empty weather_dict.")
             return 0
