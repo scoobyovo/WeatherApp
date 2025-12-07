@@ -1,0 +1,105 @@
+2025-12-07 15:23:46,109 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 15:23:46,109 [INFO] __main__: Weather Processor initialized.
+2025-12-07 15:23:46,109 [INFO] __main__: Program loop started.
+2025-12-07 15:30:34,406 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 15:30:34,407 [INFO] __main__: Weather Processor initialized.
+2025-12-07 15:30:34,407 [INFO] __main__: Program loop started.
+2025-12-07 15:30:40,302 [INFO] __main__: Line-plot generation requested.
+2025-12-07 15:30:43,111 [ERROR] plot_operations: Failed to load data from database: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': no such table: weather
+Traceback (most recent call last):
+  File "pandas\io\sql.py", line 2664, in execute
+sqlite3.OperationalError: no such table: weather
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "plot_operations.py", line 44, in _load_data
+  File "pandas\io\sql.py", line 528, in read_sql_query
+  File "pandas\io\sql.py", line 2728, in read_query
+  File "pandas\io\sql.py", line 2676, in execute
+pandas.errors.DatabaseError: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': no such table: weather
+2025-12-07 15:30:43,112 [ERROR] __main__: Error generating line plot: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': no such table: weather
+Traceback (most recent call last):
+  File "pandas\io\sql.py", line 2664, in execute
+sqlite3.OperationalError: no such table: weather
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "weather_processor.py", line 257, in generate_line
+  File "plot_operations.py", line 129, in plot_month_line
+  File "plot_operations.py", line 44, in _load_data
+  File "pandas\io\sql.py", line 528, in read_sql_query
+  File "pandas\io\sql.py", line 2728, in read_query
+  File "pandas\io\sql.py", line 2676, in execute
+pandas.errors.DatabaseError: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': no such table: weather
+2025-12-07 15:30:51,325 [INFO] __main__: Line-plot generation requested.
+2025-12-07 15:30:55,212 [ERROR] plot_operations: Failed to load data from database: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': no such table: weather
+Traceback (most recent call last):
+  File "pandas\io\sql.py", line 2664, in execute
+sqlite3.OperationalError: no such table: weather
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "plot_operations.py", line 44, in _load_data
+  File "pandas\io\sql.py", line 528, in read_sql_query
+  File "pandas\io\sql.py", line 2728, in read_query
+  File "pandas\io\sql.py", line 2676, in execute
+pandas.errors.DatabaseError: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': no such table: weather
+2025-12-07 15:30:55,213 [ERROR] __main__: Error generating line plot: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': no such table: weather
+Traceback (most recent call last):
+  File "pandas\io\sql.py", line 2664, in execute
+sqlite3.OperationalError: no such table: weather
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "weather_processor.py", line 257, in generate_line
+  File "plot_operations.py", line 129, in plot_month_line
+  File "plot_operations.py", line 44, in _load_data
+  File "pandas\io\sql.py", line 528, in read_sql_query
+  File "pandas\io\sql.py", line 2728, in read_query
+  File "pandas\io\sql.py", line 2676, in execute
+pandas.errors.DatabaseError: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': no such table: weather
+2025-12-07 15:30:57,312 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 15:30:57,822 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 15:30:57,822 [INFO] __main__: Database initialized in option 1.
+2025-12-07 15:31:15,534 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 15:36:14,235 [INFO] db_operations: Inserted 11 new rows into the database.
+2025-12-07 15:36:14,235 [INFO] __main__: Download complete. 11 new rows inserted.
+2025-12-07 15:36:16,487 [INFO] __main__: Line-plot generation requested.
+2025-12-07 15:36:21,014 [INFO] __main__: Line plot generated for 2025-12.
+2025-12-07 15:36:23,211 [INFO] __main__: User chose to quit from main menu.

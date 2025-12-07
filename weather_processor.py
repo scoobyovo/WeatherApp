@@ -137,49 +137,34 @@ class WeatherProcessor:
         to the console and logged to weatherapp.log.
         """
         LOGGER.info("Download of all latest weather data requested.")
-        print("[DEBUG] entered download_all_data")
-
 
         try:
-            print("[DEBUG] initializing DB")
             print("Initializing database (if needed)...")
             self.db.initialize_db()
-            print("Database ready. Scraping data from Environment Canada...")
+            print("Database ready. Downloading weather data from Environment Canada...")
             LOGGER.info("Database initialized in option 1.")
         except Exception as exc:
             LOGGER.exception("Error initializing database in option 1: %s", exc)
             print("Error initializing the database. See weatherapp.log for details.")
-            print("[DEBUG] leaving download_all_data early (DB error)")
             return
 
-
         try:
-            print("[DEBUG] about to call scrape_data()")
             scraper = WeatherScraper()
             weather_dict = scraper.scrape_data()
-            print(f"[DEBUG] scrape_data() returned {len(weather_dict)} days")
             LOGGER.info("Scraping finished. %d days scraped.", len(weather_dict))
         except Exception as exc:
             LOGGER.exception("Error scraping weather data in option 1: %s", exc)
             print("Error scraping weather data. See weatherapp.log for details.")
-            print("[DEBUG] leaving download_all_data early (scrape error)")
             return
 
-
         try:
-            print("[DEBUG] about to call save_data()")
             inserted = self.db.save_data(weather_dict)
             print(f"Download complete. {inserted} new rows added to the database.")
             LOGGER.info("Download complete. %d new rows inserted.", inserted)
-            print("[DEBUG] save_data() finished")
         except Exception as exc:
             LOGGER.exception("Error saving scraped data in option 1: %s", exc)
             print("Error saving data to the database. See weatherapp.log for details.")
-            print("[DEBUG] leaving download_all_data early (save error)")
             return
-
-        print("[DEBUG] leaving download_all_data normally, returning to menu")
-
 
     def generate_box(self):
         """
