@@ -65,9 +65,9 @@ class WeatherProcessor:
         self.end_date = None
         self.db = DBOperations()
         self.options = {
-            "1": lambda: self.db.initialize_db(),
-            "2": lambda: self.generate_line(),
-            "3": lambda: self.generate_box(),
+            "1": self.download_all_data,
+            "2": self.generate_line,
+            "3": self.generate_box,
             "4": None,
         }
 
@@ -89,7 +89,6 @@ class WeatherProcessor:
         logged to weatherapp.log.
         """
         LOGGER.info("Program loop started.")
-        user_input = None
 
         while True:
             print(
@@ -108,6 +107,7 @@ class WeatherProcessor:
                 break
 
             if user_input == "4":
+                LOGGER.info("User chose to quit from main menu.")
                 break
 
             action = self.options.get(user_input)
@@ -126,6 +126,59 @@ class WeatherProcessor:
         print("Quitting...")
         self.end_date = None
         self.starting_date = None
+
+    def download_all_data(self):
+        """
+        Initialize the database (if needed), scrape all available weather data,
+        and save new records into the database.
+
+        Existing rows are not duplicated because DBOperations.save_data()
+        uses INSERT OR IGNORE. The number of newly inserted rows is printed
+        to the console and logged to weatherapp.log.
+        """
+        LOGGER.info("Download of all latest weather data requested.")
+        print("[DEBUG] entered download_all_data")
+
+
+        try:
+            print("[DEBUG] initializing DB")
+            print("Initializing database (if needed)...")
+            self.db.initialize_db()
+            print("Database ready. Scraping data from Environment Canada...")
+            LOGGER.info("Database initialized in option 1.")
+        except Exception as exc:
+            LOGGER.exception("Error initializing database in option 1: %s", exc)
+            print("Error initializing the database. See weatherapp.log for details.")
+            print("[DEBUG] leaving download_all_data early (DB error)")
+            return
+
+
+        try:
+            print("[DEBUG] about to call scrape_data()")
+            scraper = WeatherScraper()
+            weather_dict = scraper.scrape_data()
+            print(f"[DEBUG] scrape_data() returned {len(weather_dict)} days")
+            LOGGER.info("Scraping finished. %d days scraped.", len(weather_dict))
+        except Exception as exc:
+            LOGGER.exception("Error scraping weather data in option 1: %s", exc)
+            print("Error scraping weather data. See weatherapp.log for details.")
+            print("[DEBUG] leaving download_all_data early (scrape error)")
+            return
+
+
+        try:
+            print("[DEBUG] about to call save_data()")
+            inserted = self.db.save_data(weather_dict)
+            print(f"Download complete. {inserted} new rows added to the database.")
+            LOGGER.info("Download complete. %d new rows inserted.", inserted)
+            print("[DEBUG] save_data() finished")
+        except Exception as exc:
+            LOGGER.exception("Error saving scraped data in option 1: %s", exc)
+            print("Error saving data to the database. See weatherapp.log for details.")
+            print("[DEBUG] leaving download_all_data early (save error)")
+            return
+
+        print("[DEBUG] leaving download_all_data normally, returning to menu")
 
 
     def generate_box(self):
@@ -209,6 +262,8 @@ class WeatherProcessor:
         else:
             print(f"{user_input} was not formatted correctly. Please try again.")
             LOGGER.warning("Invalid year-month format: %s", user_input)
+
+
 
 
 if __name__ == "__main__":

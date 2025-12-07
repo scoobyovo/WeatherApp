@@ -134,7 +134,6 @@ class WeatherScraper(HTMLParser):
             self.in_tbody = False
             self.data_found = False
             
-            print(self.format_url())
             try:
                 response = urlopen(self.format_url())
                 html = response.read().decode("utf-8")
@@ -231,8 +230,6 @@ class WeatherScraper(HTMLParser):
                         "Min": min_temp,
                         "Mean": mean_temp
                     }
-                    print(f"{self.current_date}: Max = {max_temp}," +
-                          "Min = {min_temp}, Mean = {mean_temp}")
                     self.data_found = True
                 except Exception as exc:
                     LOGGER.exception("Exception while processing row for %s: %s", 

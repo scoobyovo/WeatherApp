@@ -70,53 +70,70 @@ class DBOperations():
             raise
 
 
-    def save_data(self, weather_dict):
+    def save_data(self, weather_dict, chunk_size: int = 200) -> int:
         """
         Insert scraped weather data into the database while preventing duplicates.
-        
-        Parameter
-        ---------
-        weather_dict
+
+        Parameters
+        ----------
+        weather_dict : dict
             Dictionary of dictionaries containing weather data in the format
             { 'YYYY-MM-DD': {'Min': float, 'Max': float, 'Mean': float}, }
+        chunk_size : int, optional
+            Number of rows to insert per batch. Defaults to 200.
 
         Returns
         -------
         int
-            Number of newly inserted rows.
+            Total number of newly inserted rows.
         """
         if not weather_dict:
             LOGGER.warning("save_data called with empty weather_dict.")
             return 0
-        
 
         rows = []
         for date_str, temps in weather_dict.items():
             rows.append(
-            (
-                date_str,
-                "Winnipeg, MB",
-                temps.get("Min"),
-                temps.get("Max"),
-                temps.get("Mean"),
+                (
+                    date_str,
+                    "Winnipeg, MB",
+                    temps.get("Min"),
+                    temps.get("Max"),
+                    temps.get("Mean"),
+                )
             )
-        )
 
         insert_sql = """
-            INSERT OR IGNORE INTO weather (sample_date, location, min_temp, max_temp, avg_temp)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT OR IGNORE INTO weather (
+                sample_date, location, min_temp, max_temp, avg_temp
+            )
+            VALUES (?, ?, ?, ?, ?);
         """
+
+        total_inserted = 0
+        total_rows = len(rows)
+
         try:
             with DBCM(self.db_path) as cur:
-                cur.executemany(insert_sql, rows)
-                cur.execute("SELECT changes();")
-                inserted = cur.fetchone()[0]
-            LOGGER.info("Inserted %d new rows into the database.", inserted)
-            return inserted
+                for start in range(0, total_rows, chunk_size):
+                    end = min(start + chunk_size, total_rows)
+                    chunk = rows[start:end]
+
+                    cur.executemany(insert_sql, chunk)
+                    cur.execute("SELECT changes();")
+                    inserted = cur.fetchone()[0]
+                    total_inserted += inserted
+
+                    print(f"Saved {end}/{total_rows} days...")
+
+            LOGGER.info("Inserted %d new rows into the database.", total_inserted)
+            return total_inserted
+
         except Exception as exc:
             LOGGER.exception("Error saving data to database: %s", exc)
             raise
     
+
     def fetch_data(self, start_date = None, end_date = None, location = None):
         """
         Retrieve weather data from the database that matches the parameters provided.
@@ -183,45 +200,7 @@ class DBOperations():
         except Exception as exc: 
             LOGGER.exception("Error purging data from database: %s", exc)
             raise
-
-    # def create_csv(self, csv_path: str = "weather_export.csv"):
-    #     conn = sqlite3.connect(self.db_path)
-
-    #     query = """
-    #         SELECT id, sample_date, location, min_temp, max_temp, avg_temp
-    #         FROM weather
-    #         ORDER BY sample_date ASC
-    #     """
-
-    #     df = pd.read_sql_query(query, conn)
-    #     df.to_csv(csv_path, index=False)
-
-    #     conn.close()
-    #     return csv_path
     
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        filename="weatherapp.log",
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s %(message)s",
-    )
-    LOGGER.info("Running db_operations test.")
-    
-    scraper = WeatherScraper()
-    weather_dict = scraper.scrape_data()
-
-    print(f"Scraped {len(weather_dict)} days of data")
-
-    db = DBOperations()
-    db.initialize_db()
-
-    inserted = db.save_data(weather_dict)
-
-    print(f"Inserted {inserted} new rows into the database.")
-
-    # csv_path = db.create_csv()
-    # print(f"CSV exported to {csv_path}")
-
-    #print("Database created at:", db.db_path)
-    
+    pass

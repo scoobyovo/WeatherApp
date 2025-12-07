@@ -1,5 +1,4 @@
 """
-
 dbcm
 ----
 
@@ -22,6 +21,7 @@ class DBCM:
     transaction if no exception occurred, otherwise rolls back. The connection
     is always closed.
     """
+    
     def __init__(self, db_path: str, timeout: float = 5.0, detect_types: int = 0,
                  isolation_level: Optional[str] = None):
         """

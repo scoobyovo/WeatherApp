@@ -132,3 +132,180 @@ AttributeError: 'WeatherProcessor' object has no attribute 'user_input'
 2025-12-02 18:53:20,590 [INFO] __main__: Program loop started.
 2025-12-02 18:53:25,708 [INFO] __main__: Line-plot generation requested.
 2025-12-02 18:53:33,244 [INFO] __main__: Line plot generated for 2024-11.
+2025-12-04 12:28:14,158 [INFO] __main__: Logging configured for weather processor.
+2025-12-04 12:28:14,158 [INFO] __main__: Weather Processor initialized.
+2025-12-04 12:28:14,158 [INFO] __main__: Program loop started.
+2025-12-04 12:28:35,622 [INFO] __main__: Line-plot generation requested.
+2025-12-04 12:28:41,592 [INFO] __main__: Line plot generated for 2025-12.
+2025-12-04 12:28:47,678 [INFO] __main__: Line-plot generation requested.
+2025-12-04 12:29:03,894 [INFO] __main__: Line plot generated for 2025-11.
+2025-12-04 12:29:24,672 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-04 12:30:00,734 [INFO] __main__: Line-plot generation requested.
+2025-12-04 12:30:03,523 [INFO] __main__: Line plot generated for 2025-12.
+2025-12-04 12:31:29,035 [INFO] __main__: Box-plot generation requested.
+2025-12-04 12:31:49,274 [INFO] __main__: Box plot generated for 2020–2025.
+2025-12-04 13:07:23,240 [INFO] __main__: Logging configured for weather processor.
+2025-12-04 13:07:23,241 [INFO] __main__: Weather Processor initialized.
+2025-12-04 13:07:23,241 [INFO] __main__: Program loop started.
+2025-12-04 13:07:30,522 [INFO] __main__: Line-plot generation requested.
+2025-12-04 13:07:40,311 [INFO] __main__: Line plot generated for 2024-11.
+2025-12-04 13:07:47,754 [INFO] __main__: Line-plot generation requested.
+2025-12-04 13:08:00,399 [INFO] __main__: Line plot generated for 2024-11.
+2025-12-04 13:08:05,460 [INFO] __main__: Line-plot generation requested.
+2025-12-04 13:08:49,897 [INFO] __main__: Line plot generated for 2025-11.
+2025-12-04 13:08:51,486 [INFO] __main__: Line-plot generation requested.
+2025-12-04 13:09:08,252 [INFO] __main__: Line plot generated for 2024-11.
+2025-12-04 13:09:41,817 [INFO] __main__: Line-plot generation requested.
+2025-12-04 13:10:24,984 [INFO] __main__: Line plot generated for 2025-11.
+2025-12-04 13:12:58,226 [WARNING] __main__: Invalid menu choice: q
+2025-12-04 13:16:00,120 [INFO] __main__: Logging configured for weather processor.
+2025-12-04 13:16:00,120 [INFO] __main__: Weather Processor initialized.
+2025-12-04 13:16:00,120 [INFO] __main__: Program loop started.
+2025-12-04 13:16:06,318 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 12:43:04,337 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 12:43:04,337 [INFO] __main__: Weather Processor initialized.
+2025-12-07 12:43:04,337 [INFO] __main__: Program loop started.
+2025-12-07 12:43:07,685 [INFO] __main__: Line-plot generation requested.
+2025-12-07 12:43:15,555 [INFO] __main__: Line plot generated for 2025-12.
+2025-12-07 12:43:24,046 [ERROR] __main__: Error running menu option 1: 'DBOperations' object has no attribute 'download_all_data'
+Traceback (most recent call last):
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 119, in program
+    action()
+  File "h:\School work\python\WeatherApp\weather_processor.py", line 68, in <lambda>
+    "1": lambda: self.db.download_all_data(),
+AttributeError: 'DBOperations' object has no attribute 'download_all_data'
+2025-12-07 13:01:25,764 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 13:01:25,764 [INFO] __main__: Weather Processor initialized.
+2025-12-07 13:01:25,764 [INFO] __main__: Program loop started.
+2025-12-07 13:01:27,590 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 13:01:27,611 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 13:01:44,660 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 13:05:59,838 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 13:05:59,838 [INFO] __main__: Weather Processor initialized.
+2025-12-07 13:05:59,838 [INFO] __main__: Program loop started.
+2025-12-07 13:06:02,805 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 13:06:03,112 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 13:06:23,170 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 13:07:41,428 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 13:07:41,429 [INFO] __main__: Weather Processor initialized.
+2025-12-07 13:07:41,429 [INFO] __main__: Program loop started.
+2025-12-07 13:07:43,565 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 13:07:43,580 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 13:08:24,416 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 13:08:24,416 [INFO] __main__: Weather Processor initialized.
+2025-12-07 13:08:24,416 [INFO] __main__: Program loop started.
+2025-12-07 13:08:26,435 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 13:08:26,436 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 13:08:42,843 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 13:11:09,467 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 13:11:09,467 [INFO] __main__: Weather Processor initialized.
+2025-12-07 13:11:09,467 [INFO] __main__: Program loop started.
+2025-12-07 13:11:10,852 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 13:11:11,202 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 13:11:26,844 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 13:15:47,905 [INFO] db_operations: Inserted 0 new rows into the database.
+2025-12-07 13:15:47,906 [INFO] __main__: Download complete. 0 new rows inserted.
+2025-12-07 13:16:11,317 [INFO] __main__: User aborted from the program.
+2025-12-07 13:20:40,171 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 13:20:40,171 [INFO] __main__: Weather Processor initialized.
+2025-12-07 13:20:40,171 [INFO] __main__: Program loop started.
+2025-12-07 13:20:41,957 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 13:20:41,966 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 13:20:57,823 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 13:21:54,085 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 13:21:54,085 [INFO] __main__: Weather Processor initialized.
+2025-12-07 13:21:54,085 [INFO] __main__: Program loop started.
+2025-12-07 13:21:55,472 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 13:21:55,486 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 13:22:11,094 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 13:32:31,394 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 13:32:31,394 [INFO] __main__: Weather Processor initialized.
+2025-12-07 13:32:31,394 [INFO] __main__: Program loop started.
+2025-12-07 13:32:33,813 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 13:32:33,848 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 13:32:50,603 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 13:41:46,862 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 13:41:46,870 [INFO] __main__: Weather Processor initialized.
+2025-12-07 13:41:46,870 [INFO] __main__: Program loop started.
+2025-12-07 13:41:49,328 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 13:41:49,395 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 13:42:05,466 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 13:47:22,033 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 13:47:22,045 [INFO] __main__: Weather Processor initialized.
+2025-12-07 13:47:22,046 [INFO] __main__: Program loop started.
+2025-12-07 13:47:24,771 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 13:47:24,903 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 13:47:40,652 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 14:04:03,181 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 14:04:03,239 [INFO] __main__: Weather Processor initialized.
+2025-12-07 14:04:03,239 [INFO] __main__: Program loop started.
+2025-12-07 14:04:07,205 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 14:04:07,305 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 14:04:07,305 [INFO] __main__: Database initialized in option 1.
+2025-12-07 14:04:22,764 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 14:06:29,398 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 14:06:29,398 [INFO] __main__: Weather Processor initialized.
+2025-12-07 14:06:29,398 [INFO] __main__: Program loop started.
+2025-12-07 14:06:47,131 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 14:06:47,131 [INFO] __main__: Weather Processor initialized.
+2025-12-07 14:06:47,131 [INFO] __main__: Program loop started.
+2025-12-07 14:06:48,857 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 14:06:48,870 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 14:06:48,871 [INFO] __main__: Database initialized in option 1.
+2025-12-07 14:07:05,289 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 14:09:45,097 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 14:09:45,097 [INFO] __main__: Weather Processor initialized.
+2025-12-07 14:09:45,097 [INFO] __main__: Program loop started.
+2025-12-07 14:09:47,208 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 14:09:47,220 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 14:09:47,220 [INFO] __main__: Database initialized in option 1.
+2025-12-07 14:10:03,947 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 14:10:03,948 [INFO] db_operations: Saving 2167 rows to database...
+2025-12-07 14:14:00,998 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 14:14:00,998 [INFO] __main__: Weather Processor initialized.
+2025-12-07 14:14:00,998 [INFO] __main__: Program loop started.
+2025-12-07 14:14:03,508 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 14:14:03,567 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 14:14:03,567 [INFO] __main__: Database initialized in option 1.
+2025-12-07 14:14:19,940 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 14:14:19,941 [INFO] db_operations: Saving 2167 rows to database...
+2025-12-07 14:19:06,434 [INFO] db_operations: Finished saving data to database.
+2025-12-07 14:19:06,434 [INFO] __main__: Download complete. 2167 new rows inserted.
+2025-12-07 14:20:05,410 [INFO] __main__: Line-plot generation requested.
+2025-12-07 14:23:52,990 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 14:23:52,991 [INFO] __main__: Weather Processor initialized.
+2025-12-07 14:23:52,991 [INFO] __main__: Program loop started.
+2025-12-07 14:23:54,328 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 14:23:54,330 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 14:23:54,330 [INFO] __main__: Database initialized in option 1.
+2025-12-07 14:24:10,006 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 14:24:10,007 [INFO] db_operations: Saving 2167 rows to database...
+2025-12-07 14:24:41,101 [ERROR] dbcm: Rolled back for weather.sqlite due to exception: 
+2025-12-07 14:35:07,399 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 14:35:07,399 [INFO] __main__: Weather Processor initialized.
+2025-12-07 14:35:07,399 [INFO] __main__: Program loop started.
+2025-12-07 14:35:11,925 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 14:35:11,935 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 14:35:11,935 [INFO] __main__: Database initialized in option 1.
+2025-12-07 14:35:27,549 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 14:36:32,712 [ERROR] dbcm: Rolled back for weather.sqlite due to exception: 
+2025-12-07 14:37:54,646 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 14:37:54,646 [INFO] __main__: Weather Processor initialized.
+2025-12-07 14:37:54,646 [INFO] __main__: Program loop started.
+2025-12-07 14:37:57,402 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 14:37:57,404 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 14:37:57,404 [INFO] __main__: Database initialized in option 1.
+2025-12-07 14:38:13,212 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 14:44:10,342 [INFO] db_operations: Inserted 0 new rows into the database.
+2025-12-07 14:44:10,342 [INFO] __main__: Download complete. 0 new rows inserted.
+2025-12-07 14:48:05,157 [INFO] __main__: User chose to quit from main menu.
+2025-12-07 14:48:23,224 [INFO] __main__: Logging configured for weather processor.
+2025-12-07 14:48:23,224 [INFO] __main__: Weather Processor initialized.
+2025-12-07 14:48:23,225 [INFO] __main__: Program loop started.
+2025-12-07 14:48:25,017 [INFO] __main__: Download of all latest weather data requested.
+2025-12-07 14:48:25,020 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-07 14:48:25,020 [INFO] __main__: Database initialized in option 1.
+2025-12-07 14:48:41,052 [INFO] __main__: Scraping finished. 2167 days scraped.
+2025-12-07 14:52:59,521 [INFO] db_operations: Inserted 0 new rows into the database.
+2025-12-07 14:52:59,521 [INFO] __main__: Download complete. 0 new rows inserted.
+2025-12-07 14:55:22,063 [INFO] __main__: User chose to quit from main menu.
