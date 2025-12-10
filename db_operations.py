@@ -13,6 +13,7 @@ import sqlite3
 import pandas as pd
 from dbcm import DBCM
 from scrape_weather import WeatherScraper
+from typing import Callable, Optional
 
 LOGGER = logging.getLogger(__name__)
 
@@ -70,7 +71,7 @@ class DBOperations():
             raise
 
 
-    def save_data(self, weather_dict, chunk_size: int = 200) -> int:
+    def save_data(self, weather_dict, progress_callback=None):
         """
         Insert scraped weather data into the database while preventing duplicates.
 
@@ -79,18 +80,22 @@ class DBOperations():
         weather_dict : dict
             Dictionary of dictionaries containing weather data in the format
             { 'YYYY-MM-DD': {'Min': float, 'Max': float, 'Mean': float}, }
-        chunk_size : int, optional
-            Number of rows to insert per batch. Defaults to 200.
+        progress_callback : callable, optional
+            Function that accepts a single string argument. It is called
+            periodically with human-readable progress messages (for the GUI).
 
         Returns
         -------
         int
-            Total number of newly inserted rows.
+            Number of newly inserted rows.
         """
         if not weather_dict:
             LOGGER.warning("save_data called with empty weather_dict.")
+            if progress_callback:
+                progress_callback("No data to save.")
             return 0
 
+        # Build a flat list of rows to insert
         rows = []
         for date_str, temps in weather_dict.items():
             rows.append(
@@ -110,27 +115,41 @@ class DBOperations():
             VALUES (?, ?, ?, ?, ?);
         """
 
-        total_inserted = 0
         total_rows = len(rows)
+        chunk_size = 200
+        inserted_total = 0
 
         try:
             with DBCM(self.db_path) as cur:
+                # Insert in chunks so the UI can update and large imports don’t freeze
                 for start in range(0, total_rows, chunk_size):
-                    end = min(start + chunk_size, total_rows)
-                    chunk = rows[start:end]
-
+                    chunk = rows[start:start + chunk_size]
                     cur.executemany(insert_sql, chunk)
                     cur.execute("SELECT changes();")
                     inserted = cur.fetchone()[0]
-                    total_inserted += inserted
+                    inserted_total += inserted
 
-                    print(f"Saved {end}/{total_rows} days...")
+                    # Progress message for GUI / CLI
+                    if progress_callback:
+                        processed = min(start + chunk_size, total_rows)
+                        progress_callback(
+                            f"Saving data... {processed}/{total_rows} days processed"
+                        )
 
-            LOGGER.info("Inserted %d new rows into the database.", total_inserted)
-            return total_inserted
+            LOGGER.info("Inserted %d new rows into the database.", inserted_total)
+
+            if progress_callback:
+                progress_callback(
+                    f"Download complete. {inserted_total} new days added to the database."
+                )
+
+            return inserted_total
 
         except Exception as exc:
             LOGGER.exception("Error saving data to database: %s", exc)
+            # Let the caller decide how to display the error
+            if progress_callback:
+                progress_callback("Error saving data to the database.")
             raise
     
 

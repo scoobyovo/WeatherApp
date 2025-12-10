@@ -309,3 +309,89 @@ AttributeError: 'DBOperations' object has no attribute 'download_all_data'
 2025-12-07 14:52:59,521 [INFO] db_operations: Inserted 0 new rows into the database.
 2025-12-07 14:52:59,521 [INFO] __main__: Download complete. 0 new rows inserted.
 2025-12-07 14:55:22,063 [INFO] __main__: User chose to quit from main menu.
+2025-12-09 12:02:00,237 [INFO] __main__: WeatherApp GUI initialized.
+2025-12-09 12:02:10,269 [INFO] __main__: GUI requested line plot for 2025-12.
+2025-12-09 12:02:18,350 [INFO] __main__: GUI requested line plot for 2025-12.
+2025-12-09 12:02:22,867 [INFO] __main__: GUI requested box plot for 2020–2025.
+2025-12-09 12:02:26,546 [INFO] __main__: GUI requested box plot for 2020–2025.
+2025-12-09 12:02:33,451 [INFO] __main__: GUI requested line plot for 2024-11.
+2025-12-09 12:02:37,882 [INFO] __main__: GUI download initiated.
+2025-12-09 12:02:37,884 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-09 12:02:55,032 [INFO] __main__: GUI scraping finished: 2169 days scraped.
+2025-12-09 12:05:15,892 [INFO] __main__: GUI requested line plot for 2024-11.
+2025-12-09 12:05:21,186 [ERROR] plot_operations: Failed to load data from database: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': database is locked
+Traceback (most recent call last):
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\io\sql.py", line 2664, in execute
+    cur.execute(sql, *args)
+sqlite3.OperationalError: database is locked
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "h:\School work\python\WeatherApp\plot_operations.py", line 44, in _load_data
+    df = pd.read_sql_query("""
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\io\sql.py", line 2728, in read_query
+    cursor = self.execute(sql, params)
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\io\sql.py", line 2676, in execute
+    raise ex from exc
+pandas.errors.DatabaseError: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': database is locked
+2025-12-09 12:05:21,423 [ERROR] __main__: Error generating line plot from GUI: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': database is locked
+Traceback (most recent call last):
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\io\sql.py", line 2664, in execute
+    cur.execute(sql, *args)
+sqlite3.OperationalError: database is locked
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "h:\School work\python\WeatherApp\weather_gui.py", line 215, in on_line_plot_click
+    self.plot_ops.plot_month_line(year, month)
+  File "h:\School work\python\WeatherApp\plot_operations.py", line 129, in plot_month_line
+    df = self._load_data()
+  File "h:\School work\python\WeatherApp\plot_operations.py", line 44, in _load_data
+    df = pd.read_sql_query("""
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\io\sql.py", line 528, in read_sql_query
+    return pandas_sql.read_query(
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\io\sql.py", line 2728, in read_query
+    cursor = self.execute(sql, params)
+  File "C:\Users\param\AppData\Local\Programs\Python\Python39\lib\site-packages\pandas\io\sql.py", line 2676, in execute
+    raise ex from exc
+pandas.errors.DatabaseError: Execution failed on sql '
+                SELECT sample_date, avg_temp
+                FROM weather
+                WHERE avg_temp IS NOT NULL                   
+            ': database is locked
+2025-12-09 17:49:44,803 [INFO] __main__: WeatherApp GUI initialized.
+2025-12-09 17:49:58,080 [INFO] __main__: WeatherApp GUI initialized.
+2025-12-09 17:50:00,032 [INFO] __main__: GUI requested line plot for 2025-12.
+2025-12-09 17:50:03,590 [INFO] __main__: GUI requested box plot for 2020–2025.
+2025-12-09 17:50:06,466 [INFO] __main__: GUI download initiated.
+2025-12-09 17:50:06,468 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-09 17:50:25,016 [INFO] __main__: GUI scraping finished: 2169 days scraped.
+2025-12-09 17:50:25,036 [ERROR] __main__: Error in GUI download worker: save_data() got an unexpected keyword argument 'progress_callback'
+Traceback (most recent call last):
+  File "h:\School work\python\WeatherApp\weather_gui.py", line 193, in _download_worker
+    inserted = self.db.save_data(weather_dict, progress_callback=_progress)
+TypeError: save_data() got an unexpected keyword argument 'progress_callback'
+2025-12-09 18:01:03,251 [INFO] __main__: WeatherApp GUI initialized.
+2025-12-09 18:01:04,844 [INFO] __main__: GUI requested line plot for 2025-12.
+2025-12-09 18:01:07,485 [INFO] __main__: GUI download initiated.
+2025-12-09 18:01:07,486 [INFO] db_operations: Database initialized at weather.sqlite
+2025-12-09 18:01:26,388 [INFO] __main__: GUI scraping finished: 2169 days scraped.
+2025-12-09 18:06:43,742 [INFO] db_operations: Inserted 0 new rows into the database.
+2025-12-09 18:06:43,742 [INFO] __main__: GUI save complete: 0 new rows inserted.
+2025-12-09 18:16:47,453 [INFO] __main__: GUI requested line plot for 2025-12.
